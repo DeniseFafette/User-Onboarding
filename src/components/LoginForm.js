@@ -4,8 +4,16 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 
-function LoginForm({values, errors, touched, status}) {
+const LoginForm = ({ values, errors, touched, status }) => {
     const [users, setUsers] = useState([]);
+    console.log("this is touched", touched);
+    
+    useEffect (() => {
+        if (status) {
+            setUsers([...users, status]);
+        }
+    }, [status]);
+
     return (
     <div className='user-form'>
         <Form>
@@ -43,6 +51,13 @@ function LoginForm({values, errors, touched, status}) {
             </label>
             <button>Submit</button>
         </Form>
+        {users.map(users => (
+            <ul key={users.id}>
+                <li>Name: {users.name}</li>
+                <li>Email: {users.email}</li>
+                <li>Password: {users.password}</li>
+            </ul>
+        ))}
     </div>
     );
 };
@@ -65,7 +80,7 @@ const FormikLoginForm = withFormik({
         axios
         .post("https://reqres.in/api/users", values)
         .then(res => {
-            setStatus(res.users);
+            setStatus(res.data);
             console.log(res);
         })
         .catch(err => console.group(err.response));
