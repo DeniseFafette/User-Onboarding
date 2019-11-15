@@ -49,7 +49,7 @@ const LoginForm = ({ values, errors, touched, status }) => {
                 checked={values.terms} 
             />
             </label>
-            <button>Submit</button>
+            <button type="submit">Submit</button>
         </Form>
         {users.map(users => (
             <ul key={users.id}>
